@@ -1,94 +1,88 @@
-import Image from "next/image";
+"use client";
+import { useState } from "react";
 import styles from "./page.module.css";
 
 export default function Home() {
-  return (
+  const [numero1, setNumero1] = useState('');
+  const [numero2, setNumero2] = useState('');
+  const [resultado, setResultado] = useState(null);
+  const [error, setError] = useState(null);
+
+  const sumar = () => {
+    setError(null);
+    const resultadoSuma = parseFloat(numero1) + parseFloat(numero2);
+    setResultado(`Resultado de la suma: ${resultadoSuma}`);
+  };
+
+  const restar = () => {
+    setError(null);
+    const resultadoResta = parseFloat(numero1) - parseFloat(numero2);
+    setResultado(`Resultado de la resta: ${resultadoResta}`);
+  };
+
+  const multiplicar = () => {
+    setError(null);
+    const resultadoMultiplicacion = parseFloat(numero1) * parseFloat(numero2);
+    setResultado(`Resultado de la multiplicacion: ${resultadoMultiplicacion}`);
+  };
+
+  const dividir = () => {
+    setError(null);
+    const numero02 = parseFloat(numero2);
+    if (numero02 !== 0) {
+      const resultadoDivision = parseFloat(numero1) / numero02
+      setResultado(`Resultado de la division: ${resultadoDivision}`);
+    } else {
+      setError("Error! La division por cero no es valida")
+    }
+  };
+
+  const potencia = () => {
+    setError(null);
+    const resultadopotencia = Math.pow(parseFloat(numero1), parseFloat(numero2));
+    setResultado(`Resultado de la potenciacion: ${resultadopotencia}`);
+  };
+
+  const raizCuadrada = () => {
+    setError(null);
+    const numero01 = parseFloat(numero1);
+    if (numero01 >= 0) {
+      const raiz = Math.sqrt(numero01);
+      setResultado(`Raiz cuadrada de ${numero1}: ${raiz}`);
+    } else {
+      setError("Error! Es imposible calcular la raiz cuadrada con un numero negativo")
+    }
+  };
+
+  const restCalculadora = () => {
+    setNumero1('');
+    setNumero2('');
+    setResultado(null);
+    setError(null);
+  }
+
+  return(
     <main className={styles.main}>
-      <div className={styles.description}>
-        <p>
-          Get started by editing&nbsp;
-          <code className={styles.code}>src/app/page.js</code>
-        </p>
-        <div>
-          <a
-            href="https://vercel.com?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            By{" "}
-            <Image
-              src="/vercel.svg"
-              alt="Vercel Logo"
-              className={styles.vercelLogo}
-              width={100}
-              height={24}
-              priority
-            />
-          </a>
+      <div className={styles.calculadora}>
+        <div className={styles.numeros}>
+          <label className={styles.text}>Numero 1:</label>
+          <input className={styles.inputnum} type="number" value={numero1} onChange={(e) => setNumero1(e.target.value)}/>
         </div>
-      </div>
-
-      <div className={styles.center}>
-        <Image
-          className={styles.logo}
-          src="/next.svg"
-          alt="Next.js Logo"
-          width={180}
-          height={37}
-          priority
-        />
-      </div>
-
-      <div className={styles.grid}>
-        <a
-          href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Docs <span>-&gt;</span>
-          </h2>
-          <p>Find in-depth information about Next.js features and API.</p>
-        </a>
-
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Learn <span>-&gt;</span>
-          </h2>
-          <p>Learn about Next.js in an interactive course with&nbsp;quizzes!</p>
-        </a>
-
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Templates <span>-&gt;</span>
-          </h2>
-          <p>Explore starter templates for Next.js.</p>
-        </a>
-
-        <a
-          href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Deploy <span>-&gt;</span>
-          </h2>
-          <p>
-            Instantly deploy your Next.js site to a shareable URL with Vercel.
-          </p>
-        </a>
+        <div className={styles.numeros}>
+          <label className={styles.text}>Numero 2:</label>
+          <input className={styles.inputnum} type="number" value={numero2} onChange={(e) => setNumero2(e.target.value)} />
+        </div>
+        <div>
+          <button className={styles.button} onClick={sumar}>Sumar</button>
+          <button className={styles.button} onClick={restar}>Restar</button>
+          <button className={styles.button} onClick={multiplicar}>Multiplicar</button>        
+          <button className={styles.button} onClick={dividir}>Dividir</button>
+          <button className={styles.button} onClick={potencia}>Potenciar</button>
+          <button className={styles.button} onClick={raizCuadrada}>Raiz Cuadrada</button>
+          <button className={styles.button} onClick={restCalculadora}>Reiniciar</button>
+        </div>
+        {resultado && <div className={styles.resultado}>{resultado}</div>}
+        {error && <div className={styles.error}>{error}</div>}
       </div>
     </main>
   );
